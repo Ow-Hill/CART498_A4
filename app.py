@@ -31,17 +31,39 @@ def museum():
 
     if request.method == "POST":
         try:
-            print("hi1")
+            prompt = request.form["prompt"]
+            description = openai.responses.create(
+                model="gpt-4.1",  
+                input=[{"role": "developer", "content": "You are a art curator writing a description and are to speak EXCLUSIVLY in International Art English" +  
+                        "RULE: " + 
+                        "RULE: " + 
+                        "RULE: "}, 
+                          {"role": "user", "content": prompt},
+                          {"role": "assistant", "content": ""}],
+                          temperature=1.6,
+                          max_output_tokens=50
+            )
+            result = description.output_text
         except Exception as e:
-            print("hi2")
             result = f"Error: {str(e)}"
 
 
 
+        except Exception as e:
+            result = f"Error: {str(e)}"
+
+# Artist: an invented name and a bio line (e.g., “b. 1997, lives and works between Verdun and the cloud”)
+# Title and year
+# Medium: real materials and abstractions can mix (e.g., “Polyester, elastic, fatigue”)
+# Dimensions
+# Provenance: the object’s history of ownership (e.g., “Found under a radiator, 2026; private collection of a dépanneur; acquired by the museum after a tense negotiation”)
+# Credit line (e.g., “Gift of the artist’s backpack”)
+# The extended label is 80–120 words. It must cite one invented theorist and their invented book.
 
 
 
-    print("hi1")
+
+
     return render_template("museum.html")
 
 if __name__ == "__main__":
