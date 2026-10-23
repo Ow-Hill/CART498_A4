@@ -4,13 +4,19 @@
 {% endblock %}
 
 {% block content %}
+    <nav>
+        <ul>    
+            <li> <a href="{{url_for('index')}}">Home</a> </li>   
+        </ul>
+    </nav>
+    
     <div>
         <form method="POST" class="mx-auto col-md-8 col-lg-6">
             <div class="mb-3">
-                <textarea name="prompt" rows="4" class="form-control" placeholder="PRESS FOR ART SLOP"></textarea>
+                <textarea name="prompt" rows="4" class="form-control" placeholder="describe your readymade"></textarea>
             </div>
             <div class="d-grid">
-                <input type="submit" value="Submit" class="btn btn-primary">
+                <input type="submit" value="CREATE YOUR ART-SLOP :DDD" class="btn btn-primary">
             </div>
         </form>
 

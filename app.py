@@ -35,7 +35,7 @@ def museum():
             description = openai.responses.create(
                 model="gpt-4.1",  
                 input=[{"role": "developer", "content": "You are a art curator writing a description and are to speak EXCLUSIVLY in International Art English" +  
-                        "RULE: " + 
+                        "RULE: You are NOT to quote any REAL artists books or literature, but you must make up all references " + 
                         "RULE: " + 
                         "RULE: "}, 
                           {"role": "user", "content": prompt},
