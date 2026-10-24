@@ -253,7 +253,11 @@ def promptInsurance(inPrompt):
     return description.output_text
 
 
-def promptExtendedLabel(inPrompt):
+def promptExtendedLabel(inPrompt, prior_prompts):
+    prior_context = "\n".join(
+        f"{field.replace('_', ' ').title()}: {value}"
+        for field, value in prior_prompts.items()
+    )
     description = openai.responses.create(
         model="gpt-4.1",
         input=[
@@ -265,13 +269,18 @@ def promptExtendedLabel(inPrompt):
                     "the user's prompt. Cite exactly one invented theorist and their invented "
                     "book. Do not name real artists, theorists, books, or literature. Count "
                     "the words in the label itself, including the theorist and book citation, "
-                    "and keep the count between 80 and 120. Return only the paragraph, without "
-                    "a field label."
+                    "and keep the count between 80 and 120. Build on the supplied artwork "
+                    "details and keep the label consistent with them. Return only the "
+                    "paragraph, without a field label."
                 ),
             },
             {
                 "role": "user",
-                "content": f"Write the extended label for this artwork: {inPrompt}",
+                "content": (
+                    f"Original artwork prompt: {inPrompt}\n\n"
+                    f"Previously generated artwork details:\n{prior_context}\n\n"
+                    "Write the extended label using all of these details."
+                ),
             },
             {
                 "role": "assistant",
@@ -300,7 +309,7 @@ def prompts(inPrompt):
     artist_name = artist_lines[0] if artist_lines else ""
     artist_bio = " ".join(artist_lines[1:])
 
-    return {
+    result = {
         "artist_name": artist_name,
         "artist_bio": artist_bio,
         "title": promptTitle(inPrompt).strip(),
@@ -309,8 +318,9 @@ def prompts(inPrompt):
         "provenance": promptProvenance(inPrompt).strip(),
         "insurance": promptInsurance(inPrompt).strip(),
         "credit_line": promptCreditLine(inPrompt).strip(),
-        "extended_label": promptExtendedLabel(inPrompt).strip(),
     }
+    result["extended_label"] = promptExtendedLabel(inPrompt, result).strip()
+    return result
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -334,13 +344,35 @@ def index():
 @app.route("/museum", methods=["GET", "POST"])
 def museum():
     result = None
+    dev_preview = False
     if request.method == "POST":
         try:
             prompt = request.form["prompt"]
             result = prompts(prompt)
         except Exception as e:
             result = f"Error: {str(e)}"
-    return render_template("museum.html", result=result)
+    elif request.args.get("preview") == "1":
+        dev_preview = True
+        result = {
+            "artist_name": "Mireille Vask",
+            "artist_bio": "b. 1984, lives and works between Montréal and the soft edge of a teaspoon",
+            "title": "A Door Practising Being a Window (2026)",
+            "medium": "Wood, borrowed light, administrative hesitation",
+            "dimensions": "61 × 94 × 8 cm",
+            "provenance": "Found leaning toward an unopened room; acquired after a brief exchange of weather.",
+            "insurance": "Insured for CAD 18,400, excluding sudden certainty.",
+            "credit_line": "Courtesy of the artist and the corridor that kept it ajar.",
+            "extended_label": (
+                "This imagined work holds its threshold in a state of courteous uncertainty. "
+                "Neither entry nor view is fully granted; instead, the object rehearses the "
+                "small negotiations by which space becomes available. Its borrowed light "
+                "gathers along the grain, suggesting that passage may be less a movement "
+                "through architecture than a temporary agreement with it. Mireille Vask "
+                "describes this condition in The Elastic Elsewhere, where the ordinary "
+                "object is understood as a site of unfinished arrival."
+            ),
+        }
+    return render_template("museum.html", result=result, dev_preview=dev_preview)
 
 if __name__ == "__main__":
     app.run(debug=True)  # Run locally for testing

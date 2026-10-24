@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block scriptBlock%}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/museum.css') }}">
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const form = document.getElementById("museum-form");
@@ -14,48 +15,71 @@
 {% endblock %}
 
 {% block content %}
-    <nav>
-        <ul>    
-            <li> <a href="{{url_for('index')}}">Home</a> </li>   
-        </ul>
-    </nav>
-    
-    <div>
-            <form id="museum-form" method="POST" class="mx-auto col-md-8 col-lg-6">
-                <div class="mb-3">
-                    <textarea name="prompt" rows="4" class="form-control" placeholder="describe your readymade"></textarea>
-                </div>
-                <div class="d-grid">
-                    <input type="submit" value="CREATE YOUR ART-SLOP :DDD" class="btn btn-primary">
-                </div>
-            </form>
-            <p id="loading-message" class="text-center mt-3" role="status" hidden>Generating your museum label…</p>
+
+    <main class="museum-page">
+        <nav class="museum-nav">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a class="dev-preview-button" href="{{ url_for('museum', preview='1') }}">DEV PREVIEW</a>
+            <span>Collection of imagined things</span>
+        </nav>
+
+        <form id="museum-form" method="POST" class="museum-form">
+            <input type="submit" value="CREATE YOUR ART-SLOP :DDD">
+            <label for="museum-prompt">Describe your readymade</label>
+            <textarea id="museum-prompt" name="prompt" rows="3" placeholder="describe your readymade"></textarea>
+        </form>
+        <p id="loading-message" class="museum-loading" role="status" hidden>Preparing your exhibition…</p>
 
         {% if result is not none %}
             {% if result is mapping %}
-                <article class="mx-auto col-md-8 col-lg-6 mt-4 p-4 bg-white shadow-sm" role="status" style="line-height: 1.6;">
-                    <p class="mb-4">
-                        <strong>{{ result.artist_name }}</strong><br>
-                        {{ result.artist_bio }}
-                    </p>
-                    <p class="mb-4"><em>{{ result.title }}</em></p>
-                    <p class="mb-4">
-                        {{ result.medium }}<br>
-                        {{ result.dimensions }}
-                    </p>
-                    <p class="mb-4">{{ result.provenance }}</p>
-                    <p class="mb-4">{{ result.insurance }}</p>
-                    <p>{{ result.credit_line }}</p>
-                    <hr class="my-4">
-                    <p class="mb-0">{{ result.extended_label }}</p>
-                </article>
+                {% if dev_preview %}
+                    <section class="dev-preview" aria-label="Compact alternate museum display">
+                        <div class="dev-preview-topline">
+                            <span>Development preview · sample only</span>
+                            <a href="{{ url_for('museum') }}">Return to blank form</a>
+                        </div>
+                        <article class="dev-sample-display" role="status">
+                            <header class="dev-sample-heading">
+                                <span class="dev-index">01 / 01</span>
+                                <h1>{{ result.title }}</h1>
+                                <p>{{ result.artist_name }} <span>—</span> {{ result.artist_bio }}</p>
+                            </header>
+                            <div class="dev-sample-body">
+                                <div class="dev-sample-art" aria-hidden="true">
+                                    <span class="dev-shape dev-shape-one"></span>
+                                    <span class="dev-shape dev-shape-two"></span>
+                                    <span class="dev-art-note">layout<br>without likeness</span>
+                                </div>
+                                <div class="dev-sample-copy">
+                                    <p class="dev-materials">{{ result.medium }} · {{ result.dimensions }}</p>
+                                    <p class="dev-label">{{ result.extended_label }}</p>
+                                    <p class="dev-small-print">{{ result.provenance }} {{ result.insurance }} {{ result.credit_line }}</p>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                {% else %}
+                    <article class="mx-auto col-md-8 col-lg-6 mt-4 p-4 bg-white shadow-sm" role="status" style="line-height: 1.6;">
+                        <p class="mb-4">
+                            <strong>{{ result.artist_name }}</strong><br>
+                            {{ result.artist_bio }}
+                        </p>
+                        <p class="mb-4"><em>{{ result.title }}</em></p>
+                        <p class="mb-4">
+                            {{ result.medium }}<br>
+                            {{ result.dimensions }}
+                        </p>
+                        <p class="mb-4">{{ result.provenance }}</p>
+                        <p class="mb-4">{{ result.insurance }}</p>
+                        <p>{{ result.credit_line }}</p>
+                        <hr class="my-4">
+                        <p class="mb-0">{{ result.extended_label }}</p>
+                    </article>
+                {% endif %}
             {% else %}
                 <p class="mx-auto col-md-8 col-lg-6 mt-4 text-danger" role="alert">{{ result }}</p>
             {% endif %}
         {% endif %}
-
-    </div>
-
-
+    </main>
 
 {% endblock %}

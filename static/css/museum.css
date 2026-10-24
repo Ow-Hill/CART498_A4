@@ -1,0 +1,369 @@
+.museum-page {
+    box-sizing: border-box;
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px clamp(16px, 5vw, 80px) 56px;
+}
+
+.museum-page *,
+.museum-page *::before,
+.museum-page *::after {
+    box-sizing: inherit;
+}
+
+.museum-nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    max-width: 1500px;
+    margin: 0 auto 28px;
+}
+
+.museum-nav span { margin-left: auto; }
+
+.museum-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px 12px;
+    max-width: 760px;
+    margin: 0 auto 34px;
+}
+
+.museum-form label { grid-row: 2; }
+
+.museum-form textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: 10px;
+    resize: vertical;
+    border: 1px solid currentColor;
+    font: inherit;
+}
+
+.museum-form input[type="submit"] {
+    grid-row: 1;
+    width: 100%;
+    min-height: 54px;
+    padding: 12px 18px;
+    border: 1px solid currentColor;
+    font: inherit;
+    font-size: 1.15rem;
+    letter-spacing: .14em;
+    cursor: pointer;
+}
+
+.dev-preview-button {
+    display: inline-block;
+    margin: 0;
+    padding: 3px 7px;
+    border: 1px dashed currentColor;
+    font-size: .68rem;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dev-preview-note {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dev-preview {
+    width: min(100%, 1100px);
+    margin: 0 auto;
+}
+
+.dev-preview-topline {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: .8rem;
+}
+
+.dev-sample-display {
+    height: clamp(260px, calc(100svh - 430px), 470px);
+    min-height: 260px;
+    padding: clamp(12px, 2vw, 22px);
+    overflow: hidden;
+    border: 2px solid currentColor;
+    border-radius: 2% 1% 3% 1%;
+    transform: rotate(-.15deg);
+}
+
+.dev-sample-heading {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: 2px 12px;
+    padding: 0 0 8px;
+    border-bottom: 1px solid currentColor;
+}
+
+.dev-sample-heading h1 {
+    margin: 0;
+    font-size: clamp(1.15rem, 2.5vw, 2rem);
+    font-weight: 400;
+    line-height: 1.1;
+    transform: rotate(-.5deg);
+}
+
+.dev-sample-heading p {
+    grid-column: 2;
+    margin: 0;
+    font-size: .82rem;
+}
+
+.dev-index {
+    grid-row: span 2;
+    font-size: .72rem;
+}
+
+.dev-sample-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+    gap: clamp(14px, 2.5vw, 30px);
+    height: calc(100% - 58px);
+    padding-top: 12px;
+}
+
+.dev-sample-art {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+    border: 1px solid currentColor;
+    border-radius: 1% 3% 1.5% 2%;
+    clip-path: polygon(1% 0, 100% 2%, 98% 100%, 3% 97%);
+}
+
+.dev-shape {
+    position: absolute;
+    display: block;
+    border: 1px solid currentColor;
+}
+
+.dev-shape-one {
+    top: 13%;
+    left: 16%;
+    width: 68%;
+    height: 65%;
+    border-radius: 47% 53% 28% 72%;
+    transform: rotate(18deg);
+}
+
+.dev-shape-two {
+    right: 8%;
+    bottom: 19%;
+    width: 84%;
+    border-radius: 50%;
+    transform: rotate(-11deg);
+}
+
+.dev-art-note {
+    position: absolute;
+    right: 8px;
+    bottom: 6px;
+    font-size: .66rem;
+    line-height: 1.1;
+    text-align: right;
+}
+
+.dev-sample-copy {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    padding-left: clamp(10px, 1.5vw, 18px);
+    border-left: 1px solid currentColor;
+    transform: translateX(4px) rotate(.3deg);
+}
+
+.dev-sample-copy p { margin: 0; }
+.dev-materials { font-size: .78rem; }
+.dev-label { font-size: clamp(.78rem, 1.3vw, .95rem); line-height: 1.38; }
+.dev-small-print { font-size: .65rem; line-height: 1.25; }
+
+.museum-loading,
+.museum-error {
+    max-width: 760px;
+    margin: 16px auto;
+}
+
+.gallery-frame {
+    position: relative;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: clamp(18px, 3vw, 44px);
+    border: 2px solid currentColor;
+    border-radius: 1.2% 4.5% 1.8% 2.3%;
+    transform: rotate(-.12deg);
+}
+
+.gallery-frame::after {
+    position: absolute;
+    z-index: 0;
+    inset: 7px -6px -7px 5px;
+    border: 1px solid currentColor;
+    border-radius: 3.5% 1.5% 2.7% 1%;
+    content: "";
+    pointer-events: none;
+    transform: rotate(.2deg);
+}
+
+.gallery-heading {
+    position: relative;
+    z-index: 1;
+    width: 65%;
+    min-height: 74px;
+    margin: 0 0 0 1%;
+    padding: 0 0 14px;
+    border-bottom: 2px solid currentColor;
+    text-align: center;
+    transform: rotate(.18deg);
+}
+
+.gallery-kicker,
+.gallery-artist {
+    margin: 0;
+}
+
+.gallery-heading h1 {
+    margin: 4px 0;
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 400;
+}
+
+.gallery-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 21%);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: center;
+    padding: 22px 2% 1% 0;
+}
+
+.artwork-stage {
+    position: relative;
+    display: grid;
+    min-height: clamp(360px, 48vw, 650px);
+    overflow: hidden;
+    place-items: center;
+    border: 2px solid currentColor;
+    border-radius: 1% 2.5% 1.5% 3%;
+    clip-path: polygon(0 1%, 54% 1.5%, 100% 1%, 98.5% 18%, 99% 76%, 95% 99%, 53% 98%, 2% 100%, 1% 70%, .5% 20%);
+}
+
+.artwork-mark {
+    position: relative;
+    width: min(38%, 300px);
+    aspect-ratio: 1.25;
+    border: 2px solid currentColor;
+    border-radius: 47% 53% 42% 58% / 55% 41% 59% 45%;
+    transform: rotate(-7deg) translate(7%, -2%);
+}
+
+.artwork-mark::before,
+.artwork-mark::after {
+    position: absolute;
+    display: block;
+    content: "";
+}
+
+.artwork-mark::before {
+    top: 21%;
+    left: 18%;
+    width: 59%;
+    height: 43%;
+    border: 1px solid currentColor;
+    border-radius: 48% 52% 35% 65%;
+    transform: rotate(23deg) skew(-8deg, 3deg);
+}
+
+.artwork-mark::after {
+    bottom: 24%;
+    left: 12%;
+    width: 78%;
+    border-top: 1px solid currentColor;
+    box-shadow: 0 8px 0 -0.2px currentColor, 0 -7px 0 -0.2px currentColor;
+    transform: rotate(-17deg);
+}
+
+.stage-caption {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    margin: 0;
+    text-align: right;
+}
+
+.museum-plaque {
+    padding: clamp(14px, 2vw, 26px);
+    border: 2px solid currentColor;
+    border-radius: 1% 4% 2% 3%;
+    line-height: 1.55;
+    transform: rotate(.8deg) translateY(12px);
+}
+
+.museum-plaque p {
+    margin: 0 0 12px;
+}
+
+.museum-plaque h2 {
+    margin: 18px 0 8px;
+}
+
+.museum-plaque .extended-label {
+    margin-bottom: 0;
+}
+
+@media (max-width: 720px) {
+    .museum-page {
+        padding: 16px 12px 36px;
+    }
+
+    .museum-nav span {
+        max-width: 55%;
+        text-align: right;
+    }
+
+    .gallery-frame {
+        padding: 18px;
+    }
+
+    .dev-sample-display {
+        height: auto;
+        max-height: none;
+        overflow: visible;
+    }
+
+    .dev-sample-body {
+        grid-template-columns: minmax(120px, 1.1fr) minmax(0, .9fr);
+        min-height: 220px;
+        height: auto;
+    }
+
+    .dev-sample-copy { justify-content: flex-start; }
+
+    .gallery-heading {
+        width: 100%;
+    }
+
+    .gallery-content {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding-right: 0;
+    }
+
+    .artwork-stage {
+        min-height: 380px;
+    }
+
+    .museum-plaque {
+        transform: rotate(.35deg);
+    }
+}
