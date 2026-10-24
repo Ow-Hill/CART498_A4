@@ -57,32 +57,7 @@ def promptName(inPrompt):
 
 
 def promptTitle(inPrompt):
-    description = openai.responses.create(
-        model="gpt-4.1",
-        input=[
-            {
-                "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English, even if the user's "
-                    "prompt is in another language. Create a concise title based on the "
-                    "artwork prompt and append the year 2027. Return only the title and year, "
-                    "without a field label, in this format: [title], 2027. Do not name real "
-                    "artists, critics, curators, books, or literature."
-                ) + ART_STYLE_RULES,
-            },
-            {
-                "role": "user",
-                "content": f"Create a title and year based on: {inPrompt}",
-            },
-            {
-                "role": "assistant",
-                "content": "An Ordinary Spoon Waiting for Applause, 2027",
-            },
-        ],
-        temperature=globalTemp,
-        max_output_tokens=24,
-    )
-    return description.output_text
+    return inPrompt.strip()
 
 
 def promptMedium(inPrompt):
@@ -296,6 +271,7 @@ def prompts(inPrompt):
         "artist_name": artist_name,
         "artist_bio": artist_bio,
         "title": promptTitle(inPrompt).strip(),
+        "year": "2027",
         "medium": promptMedium(inPrompt).strip(),
         "dimensions": promptDimensions(inPrompt).strip(),
         "provenance": promptProvenance(inPrompt).strip(),
@@ -379,7 +355,8 @@ def museum():
         result = {
             "artist_name": "Mireille Vask",
             "artist_bio": "b. 1984, lives and works between Montréal and the soft edge of a teaspoon",
-            "title": "A Door Practising Being a Window (2026)",
+            "title": "A Door Practising Being a Window",
+            "year": "2026",
             "medium": "Wood, borrowed light, administrative hesitation",
             "dimensions": "61 × 94 × 8 cm",
             "provenance": "Found leaning toward an unopened room; acquired after a brief exchange of weather.",

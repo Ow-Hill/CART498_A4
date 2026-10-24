@@ -274,6 +274,7 @@
 }
 
 .catalog-artist { margin: 0; font-size: .75rem; }
+.catalog-year { margin: 0 0 4px; font-size: .62rem; }
 
 .catalog-metadata dl { display: grid; gap: 0; margin: 0; }
 
