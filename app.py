@@ -8,6 +8,36 @@ load_dotenv()  # Load environment variables from .env
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
 
+def prompts(inPrompt):
+    print(inPrompt, flush=True)
+    description = openai.responses.create(
+        model="gpt-4.1",
+        input=[
+            {
+                "role": "developer",
+                "content": (
+                    "You are an art curator writing exclusively in International Art English. "
+                    "Invent the artist and all references; do not quote or name real artists, "
+                    "books, or literature. Use exaggerated French-origin English words combined "
+                    "in a German style, sometimes joining words together. Use words such as "
+                    "'space' ambiguously between physical and non-physical meanings."
+                ),
+            },
+            {"role": "user", "content": f"Create an invented artist bio based on: {inPrompt}"},
+            {
+                "role": "assistant",
+                "content": (
+                    "Fartus Bunghole the Third, b. 1997, lives and works between Verdun and the cloud. "
+                    "Grolu, an immortal being focused on the transient nature of the human condition."
+                ),
+            },
+        ],
+        temperature=1.6,
+        max_output_tokens=50,
+    )
+    return description.output_text
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     result = None
@@ -32,19 +62,7 @@ def museum():
     if request.method == "POST":
         try:
             prompt = request.form["prompt"]
-            print(prompt, flush=True)
-            description = openai.responses.create(
-                model="gpt-4.1",  
-                input=[{"role": "developer", "content": "You are a art curator writing a description and are to speak EXCLUSIVLY in International Art English" +  
-                        "RULE: You are NOT to quote any REAL artists books or literature, but you must make up all references " + 
-                        "RULE: " + 
-                        "RULE: "}, 
-                          {"role": "user", "content": prompt}],
-                          temperature=1.6,
-                          max_output_tokens=50
-
-            )
-            result = description.output_text
+            result = prompts(prompt)
         except Exception as e:
             result = f"Error: {str(e)}"
 
@@ -53,25 +71,6 @@ def museum():
 
 if __name__ == "__main__":
     app.run(debug=True)  # Run locally for testing
-
-
-def prompts(inPrompt):
-    # prompt = request.form["prompt"]
-    print(inPrompt, flush=True)
-    description = openai.responses.create(
-                model="gpt-4.1",  
-        input=[{"role": "developer", "content": "You are a art curator writing a description and are to speak EXCLUSIVLY in International Art English" +  
-        "create the following line -- Artist: an invented name and a bio line"+
-        "RULE: You are NOT to quote, or name any REAL artists books or literature, but you must make up all references " + 
-        "RULE: Speak in an exadurated way using french orignin english words, that are combined in a german way, ie: smashing two words together to make a new one" + 
-        "RULE: For words like, space -- with a physical and non-phisical meaning; use them interchangably in a confusing way"}, 
-        {"role": "user", "content": f"Artist: an invented name, DOB, and a bio line: {inPrompt}"},
-        {"role": "assistant", "content": "Fartus Bunghole the 3rd b. 1997, lives and works between Verdun and the cloud " + 
-        "Grolu b. 1, imortal being that focuses on the transient nature of our human condition "}],
-        temperature=1.6,
-        max_output_tokens=50
-    )
-    return description.output_text
 
 #  (e.g., )
 # Title and year
