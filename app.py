@@ -11,16 +11,33 @@ openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
 # vars,
 globalTemp = 0.5
 ART_STYLE_RULES = (
-    " Always follow these three rules: (1) Write entirely in English and keep the user's "
-    "mundane object, ordinary form, and relevant materials precise; let humor come from "
-    "the contrast with inflated art language, never from making the object vague. (2) Use "
-    "the IAE features named in the earlier prompts: exaggerated French-origin English "
-    "word choices, occasional German-style compounds, and 'space' used for both physical "
-    "and abstract meanings. Keep all vocabulary English and preserve each field's format. "
-    "(3) Invent every artist, critic, curator, theorist, book, and reputation; never name or "
-    "quote a real person or attribute work or ideas to them. In the extended label, cite "
-    "exactly one invented theorist and invented book. Keep all field lengths and structures."
+    " Always follow these three rules: (1) Write in English; describe the mundane object "
+    "accurately and let humor come from its contrast with mock-serious art language. (2) "
+    "Use the earlier IAE cues: French-influenced English, occasional German-style compounds, "
+    "and physical/abstract uses of 'space'; keep a dryly amused tone. (3) Never use real "
+    "artists, critics, curators, theorists, or books; cite one invented theorist and book in "
+    "the extended label. Preserve each "
+    "field's required length and format."
+    "AVOID THE WORD ENNUI"
 )
+
+
+def catalogDeveloperPrompt(task, output_structure):
+    return (
+        "Role: Art curator writing fictional museum catalogue copy.\n"
+        "Language: English.\n"
+        f"Shared rules: {ART_STYLE_RULES}\n"
+        f"Task: {task}\n"
+        f"Output structure: {output_structure}\n"
+        "Return only the requested field, without a field label."
+    )
+
+
+def catalogUserPrompt(inPrompt, field, prior_context=None):
+    message = f"Original object prompt: {inPrompt}\n\nRequested field: {field}"
+    if prior_context:
+        message += f"\n\nPreviously generated catalogue details:\n{prior_context}"
+    return message
 
 def promptName(inPrompt):
     print(inPrompt, flush=True)
@@ -29,19 +46,15 @@ def promptName(inPrompt):
         input=[
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English, even if the user's "
-                    "prompt is in another language. Invent an artist name and a concise bio "
-                    "based on the user's artwork prompt. Do not use real artists, critics, "
-                    "curators, books, or literature. Return exactly two lines: an invented "
-                    "artist name, then one "
-                    "short bio line with birth year and where the artist lives and works. "
-                    "Do not include field labels."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Invent an artist name and concise bio for the object.",
+                    "Exactly two lines: an invented artist name, then one short bio line "
+                    "with birth year and where the artist lives and works.",
+                ),
             },
             {
                 "role": "user",
-                "content": f"Create an invented artist bio based on: {inPrompt}",
+                "content": catalogUserPrompt(inPrompt, "Artist name and bio"),
             },
             {
                 "role": "assistant",
@@ -66,21 +79,19 @@ def promptMedium(inPrompt):
         input=[
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English, even if the user's "
-                    "prompt is in another language. Invent a very concise artwork medium from "
-                    "the prompt, combining real materials with one abstraction or emotion. "
-                    "Return only the medium, without a field label, in a short list like "
-                    "'Polyester, elastic, fatigue'. Do not name real artists or artworks."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Invent a very concise medium for the object, combining real materials "
+                    "RULE:THIS MUST MY A REAL MATERIAL",
+                    "One short comma-separated list, such as 'Polyester, elastic, fatigue'.",
+                ),
             },
             {
                 "role": "user",
-                "content": f"Invent a medium for an artwork based on: {inPrompt}",
+                "content": catalogUserPrompt(inPrompt, "Medium"),
             },
             {
                 "role": "assistant",
-                "content": "Polyester, elastic, fatigue",
+                "content": "Polyester, elastic, Porcelyn",
             },
         ],
         temperature=globalTemp,
@@ -95,16 +106,14 @@ def promptDimensions(inPrompt):
         input=[
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write any words in English, even if the user's "
-                    "prompt is in another language. Invent plausible artwork dimensions from "
-                    "the prompt, include units, and return only a concise value such as "
-                    "'42 × 31 × 18 cm' or 'Dimensions variable'. Do not add a field label."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Invent plausible dimensions for the object and include units.",
+                    "One concise value, such as '42 × 31 × 18 cm' or whatever dimensions make sense for the artwork.",
+                ),
             },
             {
                 "role": "user",
-                "content": f"Invent dimensions for this artwork: {inPrompt}",
+                "content": catalogUserPrompt(inPrompt, "Dimensions"),
             },
             {
                 "role": "assistant",
@@ -123,17 +132,15 @@ def promptProvenance(inPrompt):
         input=[
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English, even if the user's "
-                    "prompt is in another language. Invent a concise, surreal ownership "
-                    "history based on the prompt, using a few dated stages separated by "
-                    "semicolons and ending with museum acquisition. Keep it to one short line. "
-                    "Return only the ownership history, without a field label."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Invent a concise, dryly amusing ownership history for the object.",
+                    "One short line with a few dated stages separated by semicolons, ending "
+                    "with museum acquisition.",
+                ),
             },
             {
                 "role": "user",
-                "content": f"Invent the provenance for this artwork: {inPrompt}",
+                "content": catalogUserPrompt(inPrompt, "Provenance"),
             },
             {
                 "role": "assistant",
@@ -156,17 +163,15 @@ def promptCreditLine(inPrompt):
 
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English, even if the user's "
-                    "prompt is in another language. Invent a brief, amusing museum credit "
-                    "line based on the prompt. Keep it to one short phrase, such as 'Gift of "
-                    "the artist's backpack'. Return only the credit line, without a field label."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Invent a brief, dryly amusing museum credit line for the object.",
+                    "One short phrase, such as 'Gift of the artist's backpack'.",
+                ),
             },
 
             {
                 "role": "user",
-                "content": f"Invent a credit line for this artwork: {inPrompt}",
+                "content": catalogUserPrompt(inPrompt, "Credit line"),
             },
 
             {
@@ -187,17 +192,15 @@ def promptInsurance(inPrompt):
         input=[
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English, even if the user's "
-                    "prompt is in another language. Invent one concise, amusing insurance "
-                    "line based on the prompt, with a value in CAD and one absurd exclusion. "
-                    "Return only the line, without a field label, in this format: Insured for "
-                    "CAD [amount], excluding [exclusion]."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Invent one concise, dryly amusing insurance line with a CAD value and "
+                    "one leagalise sounding exclusion.",
+                    "Insured for CAD [amount], excluding [exclusion].",
+                ),
             },
             {
                 "role": "user",
-                "content": f"Invent an insurance line for this artwork: {inPrompt}",
+                "content": catalogUserPrompt(inPrompt, "Insurance"),
             },
             {
                 "role": "assistant",
@@ -220,26 +223,17 @@ def promptExtendedLabel(inPrompt, prior_prompts):
         input=[
             {
                 "role": "developer",
-                "content": (
-                    "You are an art curator. Write entirely in English. Write an "
-                    "80–120 word extended museum label about an imagined artwork based on "
-                    "the user's prompt. Cite exactly one invented theorist and their invented "
-                    "book in this parenthetical format: (Invented Name, Invented Book, 2026). "
-                    "Do not name, quote, or attribute work or ideas to real artists, critics, "
-                    "curators, theorists, books, or literature. Count "
-                    "the words in the label itself, including the theorist and book citation, "
-                    "and keep the count between 80 and 120. Build on the supplied artwork "
-                    "details and keep the label consistent with them. Return only the "
-                    "paragraph, without a field label."
-                ) + ART_STYLE_RULES,
+                "content": catalogDeveloperPrompt(
+                    "Write an extended museum label for the object, consistent with the "
+                    "earlier catalogue details.",
+                    "One paragraph of 80–120 words, including exactly one citation to an "
+                    "invented theorist and book in this format: (Invented Name, Invented "
+                    "Book, 2026)." + ART_STYLE_RULES,
+                ),
             },
             {
                 "role": "user",
-                "content": (
-                    f"Original artwork prompt: {inPrompt}\n\n"
-                    f"Previously generated artwork details:\n{prior_context}\n\n"
-                    "Write the extended label using all of these details."
-                ),
+                "content": catalogUserPrompt(inPrompt, "Extended label", prior_context),
             },
             {
                 "role": "assistant",
@@ -288,25 +282,17 @@ def generateArtworkImage(inPrompt, generated_result):
         f"Generated museum label: {generated_result['extended_label']}\n"
         f"Original object description: {inPrompt}\n"
         f"Generated medium: {generated_result['medium']}\n\n"
-        "Use the artwork name as the main subject cue, and use the label and original "
-        "description to decide exactly what the object is. Create a realistic interior "
-        "photograph of one genuinely mundane readymade: a "
-        "recognizable, ordinary, mass-produced or found object with a clear everyday use, "
-        "such as a cup, stool, bag, tool, bottle, or household appliance. If the user names "
-        "a concrete object, depict that exact object; do not substitute another. If the prompt "
-        "is abstract, choose one ordinary item most strongly implied by the generated title, "
-        "description, and concrete materials in the medium. Do not turn abstract medium terms "
-        "into physical effects. Keep its normal "
-        "function, familiar shape, materials, believable scale, and natural colors. Show it "
-        "unchanged or with only minimal alteration. It must look like an actual everyday "
-        "object, not a sculpture, art installation, prototype, or fantasy object.\n\n"
-        "Place the item inside a tall, sterile white room with a high ceiling, matte white "
-        "painted wood walls, subtle vertical wood-panel seams, and a plain pale floor. Make "
-        "the room feel clean, quiet, and minimally furnished. Show the whole item clearly at "
-        "a believable scale, as the main subject, with the room's height visible around it. "
-        "Use straightforward natural interior photography. Do not add other objects, people, "
-        "writing, labels, visible words from the artwork name, picture frames, surreal "
-        "effects, or changes to the item's colors."
+        "Use the artwork name as the main cue and the label and original description to "
+        "define the object. Depict a real, ordinary found or mass-produced item as a readymade, "
+        "keeping its familiar form and everyday materials. It may have simple physical additions "
+        "or be joined to another found object when the description calls for it; keep these "
+        "changes plausible, visible, and secondary to the mundane object. Avoid a polished "
+        "sculpture or fantasy design. If abstract, choose the everyday base object implied by "
+        "the title and label. Preserve natural colors.\n\n"
+        "Show the whole object at believable scale in a tall, sterile white room with a high "
+        "ceiling, matte white painted wood walls with vertical seams, and a pale floor. Use "
+        "quiet, matter-of-fact catalog photography. No people, text, labels, frames, or "
+        "unrelated objects."
     )
 
     image_response = openai.images.generate(
