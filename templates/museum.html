@@ -32,10 +32,26 @@
             <p id="loading-message" class="text-center mt-3" role="status" hidden>Generating your museum label…</p>
 
         {% if result is not none %}
-            <div class="mx-auto col-md-8 col-lg-6 mt-4" role="status">
-                <h2>Your museum label</h2>
-                <p>{{ result }}</p>
-            </div>
+            {% if result is mapping %}
+                <article class="mx-auto col-md-8 col-lg-6 mt-4 p-4 bg-white shadow-sm" role="status" style="line-height: 1.6;">
+                    <p class="mb-4">
+                        <strong>{{ result.artist_name }}</strong><br>
+                        {{ result.artist_bio }}
+                    </p>
+                    <p class="mb-4"><em>{{ result.title }}</em></p>
+                    <p class="mb-4">
+                        {{ result.medium }}<br>
+                        {{ result.dimensions }}
+                    </p>
+                    <p class="mb-4">{{ result.provenance }}</p>
+                    <p class="mb-4">{{ result.insurance }}</p>
+                    <p>{{ result.credit_line }}</p>
+                    <hr class="my-4">
+                    <p class="mb-0">{{ result.extended_label }}</p>
+                </article>
+            {% else %}
+                <p class="mx-auto col-md-8 col-lg-6 mt-4 text-danger" role="alert">{{ result }}</p>
+            {% endif %}
         {% endif %}
 
     </div>
