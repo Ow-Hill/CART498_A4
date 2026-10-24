@@ -1,3 +1,8 @@
+This is my current progress and I am currentlt working
+
+
+
+
 # minimal-flask-app
 Minimal code for a Flask app making calls to the OpenAI API.
 

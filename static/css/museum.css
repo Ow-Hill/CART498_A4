@@ -3,6 +3,9 @@
     min-height: 100vh;
     margin: 0;
     padding: 24px clamp(16px, 5vw, 80px) 56px;
+    background: #fff;
+    color: #171717;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .museum-page *,
@@ -13,14 +16,99 @@
 
 .museum-nav {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     gap: 20px;
     max-width: 1500px;
     margin: 0 auto 28px;
 }
 
 .museum-nav span { margin-left: auto; }
+
+.museum-nav .factory-mark {
+    display: inline-block;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-shadow: .5px .5px 0 currentColor, 1px 1px 0 currentColor;
+}
+
+.museum-nav a:not(.dev-preview-button) {
+    color: inherit;
+    text-decoration: none;
+}
+
+.museum-nav a:not(.dev-preview-button):hover { text-decoration: underline; }
+
+.start-screen {
+    display: flex;
+    width: min(100%, 760px);
+    min-height: calc(100vh - 150px);
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 24px 0 8vh;
+}
+
+.start-kicker,
+.start-intro { margin: 0; }
+
+.start-kicker {
+    margin-bottom: 18px;
+    font-size: .72rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+}
+
+.start-screen h1 {
+    margin: 0 0 14px;
+    font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+    font-weight: 400;
+    letter-spacing: -.045em;
+    line-height: .98;
+}
+
+.start-intro {
+    max-width: 470px;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.start-prompt-form {
+    width: 100%;
+    margin: 30px 0 0;
+    padding: 18px;
+    border: 1px solid #e0dfdc;
+    background: #faf9f8;
+}
+
+.start-prompt-form textarea {
+    min-height: 112px;
+    border-color: #d8d6d3;
+    background: #fff;
+}
+
+.start-prompt-form textarea:focus {
+    border-color: #168ee3;
+    outline: 1px solid #168ee3;
+}
+
+.start-prompt-form input[type="submit"] {
+    min-height: 48px;
+    background: #fff;
+    font-size: .82rem;
+}
+
+.has-result {
+    min-height: 100vh;
+    padding: 12px clamp(14px, 3.4vw, 58px) 18px;
+}
+
+.has-result .museum-nav {
+    margin-bottom: 10px;
+    font-size: .78rem;
+}
 
 .museum-form {
     display: grid;
@@ -58,134 +146,12 @@
     margin: 0;
     padding: 3px 7px;
     border: 1px dashed currentColor;
+    color: inherit;
     font-size: .68rem;
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
 }
-
-.dev-preview-note {
-    width: min(100%, 760px);
-    margin: 0 auto;
-    text-align: center;
-}
-
-.dev-preview {
-    width: min(100%, 1100px);
-    margin: 0 auto;
-}
-
-.dev-preview-topline {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 8px;
-    font-size: .8rem;
-}
-
-.dev-sample-display {
-    height: clamp(260px, calc(100svh - 430px), 470px);
-    min-height: 260px;
-    padding: clamp(12px, 2vw, 22px);
-    overflow: hidden;
-    border: 2px solid currentColor;
-    border-radius: 2% 1% 3% 1%;
-    transform: rotate(-.15deg);
-}
-
-.dev-sample-heading {
-    position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: baseline;
-    gap: 2px 12px;
-    padding: 0 0 8px;
-    border-bottom: 1px solid currentColor;
-}
-
-.dev-sample-heading h1 {
-    margin: 0;
-    font-size: clamp(1.15rem, 2.5vw, 2rem);
-    font-weight: 400;
-    line-height: 1.1;
-    transform: rotate(-.5deg);
-}
-
-.dev-sample-heading p {
-    grid-column: 2;
-    margin: 0;
-    font-size: .82rem;
-}
-
-.dev-index {
-    grid-row: span 2;
-    font-size: .72rem;
-}
-
-.dev-sample-body {
-    display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
-    gap: clamp(14px, 2.5vw, 30px);
-    height: calc(100% - 58px);
-    padding-top: 12px;
-}
-
-.dev-sample-art {
-    position: relative;
-    min-height: 0;
-    overflow: hidden;
-    border: 1px solid currentColor;
-    border-radius: 1% 3% 1.5% 2%;
-    clip-path: polygon(1% 0, 100% 2%, 98% 100%, 3% 97%);
-}
-
-.dev-shape {
-    position: absolute;
-    display: block;
-    border: 1px solid currentColor;
-}
-
-.dev-shape-one {
-    top: 13%;
-    left: 16%;
-    width: 68%;
-    height: 65%;
-    border-radius: 47% 53% 28% 72%;
-    transform: rotate(18deg);
-}
-
-.dev-shape-two {
-    right: 8%;
-    bottom: 19%;
-    width: 84%;
-    border-radius: 50%;
-    transform: rotate(-11deg);
-}
-
-.dev-art-note {
-    position: absolute;
-    right: 8px;
-    bottom: 6px;
-    font-size: .66rem;
-    line-height: 1.1;
-    text-align: right;
-}
-
-.dev-sample-copy {
-    display: flex;
-    min-height: 0;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 8px;
-    padding-left: clamp(10px, 1.5vw, 18px);
-    border-left: 1px solid currentColor;
-    transform: translateX(4px) rotate(.3deg);
-}
-
-.dev-sample-copy p { margin: 0; }
-.dev-materials { font-size: .78rem; }
-.dev-label { font-size: clamp(.78rem, 1.3vw, .95rem); line-height: 1.38; }
-.dev-small-print { font-size: .65rem; line-height: 1.25; }
 
 .museum-loading,
 .museum-error {
@@ -193,177 +159,170 @@
     margin: 16px auto;
 }
 
-.gallery-frame {
-    position: relative;
-    max-width: 1500px;
+.has-result .museum-loading { display: none; }
+
+.exhibition-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 20%);
+    gap: clamp(24px, 5.5vw, 96px);
+    align-items: stretch;
+    width: min(100%, 1720px);
+    height: auto;
+    min-height: calc(100vh - 72px);
     margin: 0 auto;
-    padding: clamp(18px, 3vw, 44px);
-    border: 2px solid currentColor;
-    border-radius: 1.2% 4.5% 1.8% 2.3%;
-    transform: rotate(-.12deg);
 }
 
-.gallery-frame::after {
-    position: absolute;
-    z-index: 0;
-    inset: 7px -6px -7px 5px;
-    border: 1px solid currentColor;
-    border-radius: 3.5% 1.5% 2.7% 1%;
-    content: "";
-    pointer-events: none;
-    transform: rotate(.2deg);
-}
-
-.gallery-heading {
+.exhibition-artwork {
     position: relative;
-    z-index: 1;
-    width: 65%;
-    min-height: 74px;
-    margin: 0 0 0 1%;
-    padding: 0 0 14px;
-    border-bottom: 2px solid currentColor;
-    text-align: center;
-    transform: rotate(.18deg);
-}
-
-.gallery-kicker,
-.gallery-artist {
-    margin: 0;
-}
-
-.gallery-heading h1 {
-    margin: 4px 0;
-    font-size: clamp(24px, 4vw, 42px);
-    font-weight: 400;
-}
-
-.gallery-content {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(190px, 21%);
-    gap: clamp(24px, 5vw, 72px);
-    align-items: center;
-    padding: 22px 2% 1% 0;
-}
-
-.artwork-stage {
-    position: relative;
-    display: grid;
-    min-height: clamp(360px, 48vw, 650px);
+    min-width: 0;
+    height: max(420px, calc(100vh - 72px));
     overflow: hidden;
-    place-items: center;
-    border: 2px solid currentColor;
-    border-radius: 1% 2.5% 1.5% 3%;
-    clip-path: polygon(0 1%, 54% 1.5%, 100% 1%, 98.5% 18%, 99% 76%, 95% 99%, 53% 98%, 2% 100%, 1% 70%, .5% 20%);
+    border: 2px solid #b9d9ed;
+    background:
+        radial-gradient(ellipse at 45% 35%, transparent 0 14%, #17171722 14.2% 14.5%, transparent 14.8%),
+        linear-gradient(155deg, transparent 49%, #1717171c 49.2% 49.5%, transparent 49.8%),
+        #f2f1ef;
 }
 
-.artwork-mark {
-    position: relative;
-    width: min(38%, 300px);
-    aspect-ratio: 1.25;
-    border: 2px solid currentColor;
-    border-radius: 47% 53% 42% 58% / 55% 41% 59% 45%;
-    transform: rotate(-7deg) translate(7%, -2%);
+.exhibition-artwork.has-generated-image { background: none; }
+
+.generated-artwork {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.artwork-mark::before,
-.artwork-mark::after {
+.artwork-placeholder {
+    position: absolute;
+    inset: 0;
+}
+
+.artwork-form {
     position: absolute;
     display: block;
-    content: "";
-}
-
-.artwork-mark::before {
-    top: 21%;
-    left: 18%;
-    width: 59%;
-    height: 43%;
     border: 1px solid currentColor;
-    border-radius: 48% 52% 35% 65%;
-    transform: rotate(23deg) skew(-8deg, 3deg);
+    opacity: .32;
 }
 
-.artwork-mark::after {
-    bottom: 24%;
+.artwork-form-one {
+    top: 12%;
     left: 12%;
-    width: 78%;
-    border-top: 1px solid currentColor;
-    box-shadow: 0 8px 0 -0.2px currentColor, 0 -7px 0 -0.2px currentColor;
-    transform: rotate(-17deg);
+    width: 62%;
+    height: 47%;
+    border-radius: 42% 58% 47% 53% / 53% 36% 64% 47%;
+    transform: rotate(-13deg);
 }
 
-.stage-caption {
+.artwork-form-two {
+    right: 4%;
+    bottom: 11%;
+    width: 67%;
+    height: 48%;
+    border-radius: 60% 40% 65% 35% / 50% 57% 43% 50%;
+    transform: rotate(9deg);
+}
+
+.artwork-form-three {
+    top: 28%;
+    left: 39%;
+    width: 34%;
+    height: 37%;
+    border-radius: 50% 25% 53% 38%;
+    transform: rotate(27deg) skew(-8deg, 2deg);
+}
+
+.artwork-caption {
     position: absolute;
     right: 12px;
-    bottom: 8px;
+    bottom: 10px;
+    padding: 4px 7px;
+    background: #fff;
+    font-size: .68rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.catalog-panel {
+    display: flex;
+    min-width: 0;
+    height: auto;
+    flex-direction: column;
+    gap: 2px;
+    overflow: visible;
+    padding: 0;
+    text-align: center;
+}
+
+.catalog-panel section {
+    padding: 6px 5px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.catalog-eyebrow {
+    margin: 0 0 5px;
+    font-size: .61rem;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.catalog-title h1 {
+    margin: 0 auto 4px;
+    font-size: clamp(1.1rem, 1.55vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.15;
+}
+
+.catalog-artist { margin: 0; font-size: .75rem; }
+
+.catalog-metadata dl { display: grid; gap: 0; margin: 0; }
+
+.catalog-metadata dl > div {
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 8px;
+    padding: 3px 0;
+    text-align: left;
+}
+
+.catalog-metadata dt {
+    font-size: .57rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.catalog-metadata dd {
     margin: 0;
-    text-align: right;
+    font-size: .67rem;
+    line-height: 1.2;
 }
 
-.museum-plaque {
-    padding: clamp(14px, 2vw, 26px);
-    border: 2px solid currentColor;
-    border-radius: 1% 4% 2% 3%;
-    line-height: 1.55;
-    transform: rotate(.8deg) translateY(12px);
-}
-
-.museum-plaque p {
-    margin: 0 0 12px;
-}
-
-.museum-plaque h2 {
-    margin: 18px 0 8px;
-}
-
-.museum-plaque .extended-label {
-    margin-bottom: 0;
-}
+.catalog-metadata dd span { font-size: .62rem; }
+.catalog-label { text-align: left; }
+.catalog-label .catalog-eyebrow { text-align: center; }
+.catalog-label > p:last-child { margin: 0; font-size: .65rem; line-height: 1.27; }
 
 @media (max-width: 720px) {
-    .museum-page {
-        padding: 16px 12px 36px;
-    }
-
-    .museum-nav span {
-        max-width: 55%;
-        text-align: right;
-    }
-
-    .gallery-frame {
-        padding: 18px;
-    }
-
-    .dev-sample-display {
-        height: auto;
-        max-height: none;
-        overflow: visible;
-    }
-
-    .dev-sample-body {
-        grid-template-columns: minmax(120px, 1.1fr) minmax(0, .9fr);
-        min-height: 220px;
-        height: auto;
-    }
-
-    .dev-sample-copy { justify-content: flex-start; }
-
-    .gallery-heading {
-        width: 100%;
-    }
-
-    .gallery-content {
+    .museum-page { padding: 16px 12px 36px; }
+    .museum-nav { flex-wrap: wrap; gap: 10px; }
+    .museum-nav span { max-width: 55%; text-align: right; }
+    .museum-form { grid-template-columns: 1fr; }
+    .has-result { padding: 12px; }
+    .has-result .museum-nav { margin-bottom: 10px; }
+    .exhibition-layout {
         grid-template-columns: 1fr;
-        gap: 22px;
-        padding-right: 0;
+        gap: 14px;
+        height: auto;
+        min-height: 0;
     }
-
-    .artwork-stage {
-        min-height: 380px;
+    .exhibition-artwork { height: min(58vh, 480px); min-height: 280px; }
+    .catalog-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        overflow: visible;
+        gap: 8px;
     }
-
-    .museum-plaque {
-        transform: rotate(.35deg);
-    }
+    .catalog-metadata,
+    .catalog-label { grid-column: 1 / -1; }
 }

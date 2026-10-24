@@ -8,6 +8,23 @@ body{
 
 }
 
+.factory-shake {
+    display: inline-block;
+    animation: factory-jitter 11s infinite;
+}
+
+@keyframes factory-jitter {
+    0%, 96%, 100% { transform: translate(0, 0) rotate(0); }
+    96.4% { transform: translate(1px, -1px) rotate(-1deg); }
+    96.8% { transform: translate(-1px, 1px) rotate(.6deg); }
+    97.2% { transform: translate(1px, 0) rotate(-.4deg); }
+    97.6% { transform: translate(0, 0) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .factory-shake { animation: none; }
+}
+
 .centered{
     margin-left: auto;
     margin-right: auto;

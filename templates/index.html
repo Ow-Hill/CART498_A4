@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block scriptBlock %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 {% endblock %}
 
 {% block content %}
     
-    <div class="container text-center mt-5" style="align-items: center;">
-
-        <h1 class="display-4" style="color: rgb(30, 30, 61); size: 30px;">Welcome to the ready-made </h1>
-        <h1 class="display" style="color: rgb(5, 5, 37); size: 50px;">SLOP FACTORY!!!!</h1>
-        <div> <a href="{{url_for('museum')}}" style="color: rgb(13, 102, 104);">CLICK HERE TO CREATE ART-SLOP</a> </div>
+    <main class="home-page container text-center">
+        <h1 class="home-title">ready-made</h1>
+        <h1 class="home-factory factory-shake">FACTORY</h1>
+        <a class="home-link factory-shake" href="{{ url_for('museum') }}">factory</a>
         <!-- <form method="POST" class="mx-auto col-md-8 col-lg-6">
             <div class="mb-3">
                 <textarea name="prompt" rows="4" class="form-control" placeholder="Enter your prompt..."></textarea>
@@ -23,6 +23,6 @@
             <h3 class="mt-4">Response:</h3>
             <div class="alert alert-secondary">{{ result }}</div>
         {% endif %} -->
-        <div style="padding-top: 23%"> by Owen Hill, Concordia 2026, CART 498</div>
-    </div>
+        <div class="home-credit">by Owen Hill, Concordia 2026, CART 498</div>
+    </main>
 {% endblock %}
