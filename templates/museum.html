@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block scriptBlock%}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("museum-form");
+        const loading = document.getElementById("loading-message");
+        form.addEventListener("submit", () => {
+            loading.hidden = false;
+            form.querySelector("input[type='submit']").disabled = true;
+        });
+    });
+</script>
 {% endblock %}
 
 {% block content %}
@@ -11,14 +21,22 @@
     </nav>
     
     <div>
-        <form method="POST" class="mx-auto col-md-8 col-lg-6">
-            <div class="mb-3">
-                <textarea name="prompt" rows="4" class="form-control" placeholder="describe your readymade"></textarea>
+            <form id="museum-form" method="POST" class="mx-auto col-md-8 col-lg-6">
+                <div class="mb-3">
+                    <textarea name="prompt" rows="4" class="form-control" placeholder="describe your readymade"></textarea>
+                </div>
+                <div class="d-grid">
+                    <input type="submit" value="CREATE YOUR ART-SLOP :DDD" class="btn btn-primary">
+                </div>
+            </form>
+            <p id="loading-message" class="text-center mt-3" role="status" hidden>Generating your museum label…</p>
+
+        {% if result is not none %}
+            <div class="mx-auto col-md-8 col-lg-6 mt-4" role="status">
+                <h2>Your museum label</h2>
+                <p>{{ result }}</p>
             </div>
-            <div class="d-grid">
-                <input type="submit" value="CREATE YOUR ART-SLOP :DDD" class="btn btn-primary">
-            </div>
-        </form>
+        {% endif %}
 
     </div>
 

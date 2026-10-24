@@ -28,31 +28,52 @@ def index():
 
 @app.route("/museum", methods=["GET", "POST"])
 def museum():
-
+    result = None
     if request.method == "POST":
         try:
             prompt = request.form["prompt"]
+            print(prompt, flush=True)
             description = openai.responses.create(
                 model="gpt-4.1",  
                 input=[{"role": "developer", "content": "You are a art curator writing a description and are to speak EXCLUSIVLY in International Art English" +  
                         "RULE: You are NOT to quote any REAL artists books or literature, but you must make up all references " + 
                         "RULE: " + 
                         "RULE: "}, 
-                          {"role": "user", "content": prompt},
-                          {"role": "assistant", "content": ""}],
+                          {"role": "user", "content": prompt}],
                           temperature=1.6,
                           max_output_tokens=50
+
             )
             result = description.output_text
         except Exception as e:
             result = f"Error: {str(e)}"
 
 
+    return render_template("museum.html", result=result)
 
-        except Exception as e:
-            result = f"Error: {str(e)}"
+if __name__ == "__main__":
+    app.run(debug=True)  # Run locally for testing
 
-# Artist: an invented name and a bio line (e.g., “b. 1997, lives and works between Verdun and the cloud”)
+
+def prompts(inPrompt):
+    # prompt = request.form["prompt"]
+    print(inPrompt, flush=True)
+    description = openai.responses.create(
+                model="gpt-4.1",  
+        input=[{"role": "developer", "content": "You are a art curator writing a description and are to speak EXCLUSIVLY in International Art English" +  
+        "create the following line -- Artist: an invented name and a bio line"+
+        "RULE: You are NOT to quote, or name any REAL artists books or literature, but you must make up all references " + 
+        "RULE: Speak in an exadurated way using french orignin english words, that are combined in a german way, ie: smashing two words together to make a new one" + 
+        "RULE: For words like, space -- with a physical and non-phisical meaning; use them interchangably in a confusing way"}, 
+        {"role": "user", "content": f"Artist: an invented name, DOB, and a bio line: {inPrompt}"},
+        {"role": "assistant", "content": "Fartus Bunghole the 3rd b. 1997, lives and works between Verdun and the cloud " + 
+        "Grolu b. 1, imortal being that focuses on the transient nature of our human condition "}],
+        temperature=1.6,
+        max_output_tokens=50
+    )
+    return description.output_text
+
+#  (e.g., )
 # Title and year
 # Medium: real materials and abstractions can mix (e.g., “Polyester, elastic, fatigue”)
 # Dimensions
@@ -60,11 +81,3 @@ def museum():
 # Credit line (e.g., “Gift of the artist’s backpack”)
 # The extended label is 80–120 words. It must cite one invented theorist and their invented book.
 
-
-
-
-
-    return render_template("museum.html")
-
-if __name__ == "__main__":
-    app.run(debug=True)  # Run locally for testing
