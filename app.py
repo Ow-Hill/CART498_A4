@@ -133,7 +133,7 @@ def promptProvenance(inPrompt):
             {
                 "role": "developer",
                 "content": catalogDeveloperPrompt(
-                    "Invent a concise, dryly amusing ownership history for the object.",
+                    "Invent a concise, ownership history for the object.",
                     "One short line with a few dated stages separated by semicolons, ending "
                     "with museum acquisition.",
                 ),
